@@ -1,0 +1,62 @@
+services:
+  vault:
+    image: psono/psono-combo-enterprise:latest
+    volumes:
+      - ./psono/settings.yaml:/root/.psono_server/settings.yaml
+      - ./psono/config.json:/usr/share/nginx/html/config.json
+      - ./psono/config.json:/usr/share/nginx/html/portal/config.json
+      - ./log/psono:/var/log/psono
+    restart: unless-stopped
+    ports:
+      - 10200:80
+    depends_on:
+      db:
+        condition: service_healthy
+    sysctls:
+      net.core.somaxconn: 65535
+
+  smtp:
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
+
+  db:
+    image: postgres:13-alpine
+    restart: always
+    user: postgres
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=psono
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    expose:
+      - 5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  proxy:
+    image: nginx
+    volumes:
+      - type: bind
+        source: ./proxy/nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+        read_only: true
+    ports:
+      - 80:80
+    depends_on:
+      - vault
+      - smtp
+
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: postgres/dev-password.txt

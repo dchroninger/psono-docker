@@ -1,0 +1,211 @@
+# generate the following six parameters with the following command
+# docker run --rm -ti psono/psono-combo:latest python3 ./psono/manage.py generateserverkeys
+SECRET_KEY: '73GCGE5MAfcYzIpNPeEVMdr0gaIl6kAR6RvIi8ScsqQ3V8A7UtM0pWumUF5lRXdr'
+ACTIVATION_LINK_SECRET: '6WWXPaWP1W0q7GbzFN5ChXrqlXaf3FxS3F4wggs21iLiKtID09Bi0CSQOxH2OjKd'
+DB_SECRET: 'JUQk0qvyCBQ9gsFB8zKYZSF3IU4JFZDa5xhl4tb0AzLeOsSJ9Ont92TuzmTVHBYH'
+EMAIL_SECRET_SALT: '$2b$12$G6uXiLNreCn6w8pbVh79Ue'
+PRIVATE_KEY: '2842a01e259ddf4438b5b5e4a41ac718a6dc3436c8361cef7cce186ddb40df91'
+PUBLIC_KEY: '0bd1c70617f7acdab5df6cba0c2cf48b9337b9e4ff4dcb5d152d6223795c271d'
+
+# The URL of the web client (path to e.g activate.html without the trailing slash)
+# WEB_CLIENT_URL: 'https://psono.example.com'
+
+# Switch DEBUG to false if you go into production
+DEBUG: False
+
+# Adjust this according to Django Documentation https://docs.djangoproject.com/en/2.2/ref/settings/
+ALLOWED_HOSTS: ['*']
+
+# Should be your domain without "www.". Will be the last part of the username
+ALLOWED_DOMAINS: ['couvehealthcare.com']
+
+# If you want to disable registration, you can comment in the following line
+ALLOW_REGISTRATION: False
+
+# If you want to disable the lost password functionality, you can comment in the following line
+ALLOW_LOST_PASSWORD: False
+
+# If you want to enforce that the email address and username needs to match upon registration
+# ENFORCE_MATCHING_USERNAME_AND_EMAIL: False
+
+# If you want to restrict registration to some email addresses you can specify here a list of domains to filter
+# REGISTRATION_EMAIL_FILTER: ['company1.com', 'company2.com']
+
+# Should be the URL of the host under which the host is reachable
+# If you open the url and append /info/ to it you should have a text similar to {"info":"{\"version\": \"....}
+HOST_URL: 'https://vault.couvehealthcare.com/server'
+
+# The email used to send emails, e.g. for activation
+# ATTENTION: If executed in a docker container, then "localhost" will resolve to the docker container, so
+# "localhost" will not work as host. Use the public IP or DNS record of the server.
+EMAIL_FROM: 'the-mail-for-for-example-useraccount-activations@test.com'
+EMAIL_HOST: 'mailhog'
+EMAIL_HOST_USER: ''
+EMAIL_HOST_PASSWORD : ''
+EMAIL_PORT: 25
+EMAIL_SUBJECT_PREFIX: ''
+EMAIL_USE_TLS: False
+EMAIL_USE_SSL: False
+EMAIL_SSL_CERTFILE:
+EMAIL_SSL_KEYFILE:
+EMAIL_TIMEOUT: 10
+
+# Cache enabled without belows Redis may lead to unexpected behaviour
+
+# Cache with Redis
+# By default you should use something different than database 0 or 1, e.g. 13 (default max is 16, can be configured in
+# redis.conf) possible URLS are:
+#    redis://[:password]@localhost:6379/0
+#    rediss://[:password]@localhost:6379/0
+#    unix://[:password]@/path/to/socket.sock?db=0
+# CACHE_ENABLE: False
+# CACHE_REDIS: False
+# CACHE_REDIS_LOCATION: 'redis://127.0.0.1:6379/13'
+
+# The server will automatically connect to the license server to get a license for 10 users.
+# For paying customers we offer the opportunity to get an offline license code.
+#
+# LICENSE_CODE: |
+#   0abcdefg...
+#   1abcdefg...
+#   2abcdefg...
+#   3abcdefg...
+#   4abcdefg...
+#   5abcdefg...
+#   6abcdefg...
+#   7abcdefg...
+#   8abcdefg...
+
+# Enables the management API, required for the psono-admin-client / admin portal (Default is set to False)
+MANAGEMENT_ENABLED: True
+
+# Allows that users can search for partial usernames
+ALLOW_USER_SEARCH_BY_USERNAME_PARTIAL: True
+
+# Normally only one of the configured second factors needs to be solved. Setting this to True forces the client to solve all
+# MULTIFACTOR_ENABLED: True
+
+# Allows admins to limit the offered second factors in the client
+ALLOWED_SECOND_FACTORS: ['google_authenticator']
+
+# You also have to comment in the line below if you want to use LDAP (default: ['AUTHKEY'])
+# For SAML authentication, you also have to add 'SAML' to the array.
+AUTHENTICATION_METHODS: ['SAML']
+
+# Enable Audit logging
+LOGGING_AUDIT: True
+
+# If you prefer server time over utc, you can do that like below (default 'time_utc')
+LOGGING_AUDIT_TIME: 'time_server'
+
+# If you want to use SAML, then you can configure it like this as a dictionary.
+#
+# About the parameters:
+#   idp->entityId: Thats the url to the metadata of your IDP
+#   idp->singleLogoutService->url: Thats the url to the logout service of your IDP
+#   idp->singleSignOnService->url: Thats the url to the single sign-on service of your IDP
+#   idp->x509cert: Thats the certificate of your IDP
+#   idp->groups_attribute: The attribute in the SAML response that holds your groups
+#   idp->username_attribute: The attribute in the SAML response that holds the username. If you put here null, then it will use the NameID
+#   idp->email_attribute: The attribute in the SAML response that holds the email address.
+#   idp->username_domain: The domain that is appended to the provided username, if the provided username is not already in email format.
+#   idp->required_group: A list of group names (casesensitive) in order to restrict who can use SAML login with this installation. Leave empty for no restriction.
+#   idp->is_adfs: If you are using ADFS.
+#   idp->honor_multifactors: Multifactor authentication can be bypassed with this flag for all SAML users (e.g. when you already enforce multifactor on the SAML provider).
+#   idp->max_session_lifetime: The time in seconds that a session created throught SAML will live
+#
+#   sp->NameIDFormat: The normal nameformat parameter. (should only be set to transient if you have set a username attribute with username_attribute)
+#   sp->attributeConsumingService: Only necessary if the IDP needs to be told to send some specific attributes
+#   sp->x509cert: The X.509 cert
+#   sp->privateKey: The corresponding private key of the X.509 cert
+#
+# There are a couple of more options next to those required ones below.
+# More information can be found here https://github.com/onelogin/python3-saml
+#
+# A self-signed certificate can be generated with:
+# openssl req -new -newkey rsa:2048 -x509 -days 3650 -nodes -sha256 -out sp_x509cert.crt -keyout sp_private_key.key
+#
+# To help you setup SAML, we have created a small "testsaml" command that should make things easier. You can execute it like:
+# docker run --rm \
+#  -v /opt/docker/psono/settings.yaml:/root/.psono_server/settings.yaml \
+#  -ti psono/psono-combo-enterprise:latest python3 psono/manage.py testsaml
+#
+# The number 1 in line 2 is the provider id. Users are matched by the constructed username.
+#
+# SAML_CONFIGURATIONS:
+#     1:
+#         idp:
+#             entityId: "https://idp.exampple.com/metadata.php"
+#             singleLogoutService:
+#                 binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+#                 url: "https://idp.exampple.com/SingleLogoutService.php"
+#             singleSignOnService:
+#                 binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+#                 url: "https://idp.exampple.com/SingleSignOnService.php"
+#             x509cert: "ABC...=="
+#             groups_attribute: "groups"
+#             username_attribute: 'username'
+#             email_attribute: 'email'
+#             username_domain: 'example.com'
+#             required_group: []
+#             is_adfs: false
+#             honor_multifactors: true
+#             max_session_lifetime: 86400
+#         sp:
+#             NameIDFormat: "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
+#             assertionConsumerService:
+#                 binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+#             attributeConsumingService:
+#                 serviceName: "Psono"
+#                 serviceDescription: "Psono password manager"
+#                 requestedAttributes:
+#                     -
+#                         attributeValue: []
+#                         friendlyName: ""
+#                         isRequired: false
+#                         name: "attribute-that-has-to-be-requested-explicitely"
+#                         nameFormat: ""
+#             privateKey: "ABC...=="
+#             singleLogoutService:
+#                 binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+#             x509cert: "ABC...=="
+#         strict: true
+#
+# You need a couple of urls to configure the IDP correctly. If the server is accessible under https://example.com/server
+# (e.g. https://example.com/server/healthcheck/ shows some json output) and the provider id is 1 as in the example
+# above the folling urls are valid:
+#
+# for metadata :                   https://example.com/server/saml/1/metadata/
+# for assertion consumer service : https://example.com/server/saml/1/acs/
+# for single logout service :      https://example.com/server/saml/1/sls/
+#
+#
+# ATTENTION: API kays currently bypass SAML authentication, that means API keys can still access secrets even if the
+# user was disabled in SAML. API keys can be disabled with COMPLIANCE_DISABLE_API_KEYS
+
+# Your Postgres Database credentials
+# ATTENTION: If executed in a docker container, then "localhost" will resolve to the docker container, so
+# "localhost" will not work as host. Use the public IP or DNS record of the server.
+DATABASES:
+    default:
+        'ENGINE': 'django.db.backends.postgresql_psycopg2'
+        'NAME': 'psono'
+        'USER': 'postgres'
+        'PASSWORD': 'test1234'
+        'HOST': 'db'
+        'PORT': '5432'
+TEMPLATES: [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['/root/psono/templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]

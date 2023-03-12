@@ -1,0 +1,14 @@
+{
+  "backend_servers": [{
+    "title": "Psono.pw",
+    "url": "https://vault.couvehealthcare.com/server"
+  }],
+  "base_url": "https://vault.couvehealthcare.com/",
+  "allow_custom_server": true,
+  "allow_registration": true,
+  "allow_lost_password": true,
+  "disable_download_bar": false,
+  "authentication_methods": ["AUTHKEY", "LDAP"],
+  "saml_provider": []
+}
+
